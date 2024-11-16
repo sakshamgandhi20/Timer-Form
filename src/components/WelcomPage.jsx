@@ -42,7 +42,7 @@ const WelcomePage = () => {
       {/* Guidelines Section */}
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6 sm:p-8 md:p-10 mb-10">
         <h2 className="text-xl sm:text-2xl font-semibold text-[#663300] mb-4">Quiz Guidelines</h2>
-        <div className="text-gray-700 text-sm sm:text-base whitespace-pre-wrap">
+        <div className="text-gray-700 text-sm sm:text-base whitespace-pre-wrap text-justify">
   {instructions ? instructions : 'Loading...'}
 </div>
 

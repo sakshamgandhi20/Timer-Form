@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { doFetchAllAdminSettingsFromBackend,doUpdateQuizSettingsFromBackend,doUpdateQuizInstructionsFromBackend } from '../service/quizSetting-controller';
+
 
 const AdminSettings = () => {
   const [formUrl, setFormUrl] = useState('');
@@ -8,42 +10,44 @@ const AdminSettings = () => {
   const [newInstructions, setNewInstructions] = useState('');
 
   // Fetch settings on load
-  useEffect(() => {
-    const fetchSettings = async () => {
-      try {
-        const response = await axios.get('/api/settings');
-        if (response.data.status) {
-          setFormUrl(response.data.settings.formUrl);
-          setTimerDuration(response.data.settings.timerDuration);
-          setInstructions(response.data.settings.instructions);
-        }
-      } catch (error) {
-        console.error('Error fetching settings:', error);
-      }
-    };
-    fetchSettings();
-  }, []);
+  async function doFetchAllSettings (){
+    var serverMsg = await doFetchAllAdminSettingsFromBackend();
+    console.log(serverMsg.data);
+    if(serverMsg.data.status){
+      setFormUrl(serverMsg.data.settings.formUrl);
+      setTimerDuration(serverMsg.data.settings.timerDuration);
+      setInstructions(serverMsg.data.instructions.instructions)
+    }
+    else{
+      alert(serverMsg.data.error)
+    }
+  }
 
+  
+  
   // Update settings
   const handleUpdateSettings = async () => {
-    try {
-      await axios.post('/api/settings', { formUrl, timerDuration });
-      alert('Settings updated successfully!');
-    } catch (error) {
-      console.error('Error updating settings:', error);
+    var serverMsg = await doUpdateQuizSettingsFromBackend({formUrl:formUrl,timerDuration:timerDuration});
+    if(serverMsg.data.status){
+      alert("settings Saved")
     }
+    else
+      alert(serverMsg.data.error);
   };
-
+  
   // Update instructions
   const handleUpdateInstructions = async () => {
-    try {
-      await axios.post('/api/instructions', { instructions: newInstructions });
-      alert('Instructions updated successfully!');
-      setInstructions(newInstructions);
-    } catch (error) {
-      console.error('Error updating instructions:', error);
+    var serverMsg = await doUpdateQuizInstructionsFromBackend({instructions:newInstructions});
+    if(serverMsg.data.status){
+      alert("settings Saved")
     }
+    else
+      alert(serverMsg.data.error);
   };
+  
+  useEffect(()=>{
+    doFetchAllSettings();
+  },[])
 
   return (
     <div className="min-h-screen bg-[#fdf7ed] flex items-center justify-center p-6">
@@ -96,7 +100,7 @@ const AdminSettings = () => {
 
           <div className="mt-8 bg-gray-100 p-4 rounded">
             <h4 className="font-bold text-lg text-[#663300] mb-2">Current Instructions:</h4>
-            <p className="whitespace-pre-wrap">{instructions || 'No instructions set'}</p>
+            <p className="whitespace-pre-wrap text-[#020617] text-justify">{instructions || 'No instructions set'}</p>
           </div>
         </section>
       </div>

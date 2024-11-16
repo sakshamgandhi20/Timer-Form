@@ -19,7 +19,7 @@ function App() {
            <Route path='/' element={<WelcomPage></WelcomPage>}></Route>
            <Route path='/quiz' element={<QuizPage></QuizPage>}></Route>
            <Route path='/adminAMRC' element={<AdminPage></AdminPage>}></Route>
-           <Route path='/adminsetting' element={<AdminSettings></AdminSettings>}></Route>
+           {/* <Route path='/adminsetting' element={<AdminSettings></AdminSettings>}></Route> */}
           
          </Routes>
        
