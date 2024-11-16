@@ -1,8 +1,32 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import { doFetchQuizInstructionsFromBackend } from '../service/quizSetting-controller';
+
 
 const WelcomePage = () => {
   const navigate = useNavigate();
+  const [instructions, setInstructions] = useState('');
+  
+  async function doFetchQuizSettings() {
+    var serverMsg = await doFetchQuizInstructionsFromBackend();
+    console.log(serverMsg.data);
+    if (serverMsg.data.status === true) {
+      if (serverMsg.data.result) {
+        setInstructions(serverMsg.data.result);
+        console.log(serverMsg.data);
+      } else {
+        alert(serverMsg.data.error)
+      }
+    } else {
+      alert(serverMsg.data.error);
+    }
+  }
+
+  useEffect(()=>{
+    doFetchQuizSettings();
+  },[])
+
 
   const handleStartQuiz = () => {
     navigate('/quiz'); // Redirect to the Quiz Page
@@ -18,13 +42,10 @@ const WelcomePage = () => {
       {/* Guidelines Section */}
       <div className="w-full max-w-3xl bg-white rounded-lg shadow-lg p-6 sm:p-8 md:p-10 mb-10">
         <h2 className="text-xl sm:text-2xl font-semibold text-[#663300] mb-4">Quiz Guidelines</h2>
-        <ul className="list-disc list-inside text-gray-700 text-sm sm:text-base">
-          <li>The quiz is time-bound, so make sure you complete it before the timer runs out.</li>
-          <li>All answers will be submitted automatically once the timer ends.</li>
-          <li>Ensure a stable internet connection while taking the quiz.</li>
-          <li>Do not refresh the page or close the browser during the quiz.</li>
-          <li>Each question is mandatory; make sure to attempt all questions.</li>
-        </ul>
+        <div className="text-gray-700 text-sm sm:text-base whitespace-pre-wrap">
+  {instructions ? instructions : 'Loading...'}
+</div>
+
       </div>
 
       {/* Start Button */}
