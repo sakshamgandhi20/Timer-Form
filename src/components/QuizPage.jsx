@@ -1,0 +1,66 @@
+import React, { useEffect, useState } from 'react';
+
+const QuizPage = ({ formUrl, timerDuration, onTimeUp }) => {
+  const [timeLeft, setTimeLeft] = useState(timerDuration);
+
+  // Timer logic
+  useEffect(() => {
+    if (timeLeft <= 0) {
+      onTimeUp();
+    } else {
+      const timer = setInterval(() => {
+        setTimeLeft((prevTime) => prevTime - 1);
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [timeLeft, onTimeUp]);
+
+  // Format time in MM:SS
+  const formatTime = (seconds) => {
+    const minutes = Math.floor(seconds / 60);
+    const remainingSeconds = seconds % 60;
+    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+  };
+
+  return (
+    <div className="min-h-screen bg-[#fdf7ed] flex flex-col items-center p-4">
+      {/* Sticky Timer */}
+      <div className="w-full bg-[#ffd700] text-[#663300] font-semibold py-2 px-4 shadow-md sticky top-0 z-50 flex justify-center items-center">
+        <span>⏳</span>
+        <span className="ml-2">{formatTime(timeLeft)}</span>
+      </div>
+
+      {/* Quiz Content */}
+      <div className="w-full max-w-4xl mt-6 px-4 sm:px-6 md:px-8 lg:px-12">
+        <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#663300] text-center mb-4">
+          Avyakt Murli Quiz 📃
+        </h1>
+        <p className="text-center text-gray-600 mb-6 text-sm sm:text-base">
+          This is a timed quiz. Once the timer runs out, your answers will be submitted automatically.
+        </p>
+
+        {/* Google Form Embed */}
+        <div className="w-full bg-white rounded-lg shadow-lg overflow-hidden p-4 sm:p-6 md:p-8">
+          <iframe
+            src={formUrl}
+            title="Quiz Form"
+            width="100%"
+            height="500px"
+            className="border-0 rounded-lg"
+            frameBorder="0"
+            allow="autoplay; encrypted-media"
+          />
+        </div>
+      </div>
+
+      {/* Footer */}
+      <div className="mt-8 text-gray-500 text-sm text-center">
+        <p className="italic">
+          Ensure you submit the quiz before time runs out. Good luck! 🍀
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default QuizPage;
