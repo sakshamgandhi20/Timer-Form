@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const baseURL = "http://localhost:2002";
+const baseURL = "https://timer-form-backend.onrender.com";
 
 const publicAxios = axios.create({ baseURL });
 
