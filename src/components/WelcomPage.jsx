@@ -36,7 +36,7 @@ const WelcomePage = () => {
     <div className="min-h-screen flex flex-col items-center justify-center bg-[#fdf7ed] p-8">
       {/* Heading */}
       <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#663300] mb-8 text-center">
-        Welcome to the Avyakt Murli Quiz 📖
+        Welcome to the Avyakt Murli Readers Club Quiz 📖
       </h1>
 
       {/* Guidelines Section */}
