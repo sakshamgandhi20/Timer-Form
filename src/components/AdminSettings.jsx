@@ -1,53 +1,71 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
-import { doFetchAllAdminSettingsFromBackend,doUpdateQuizSettingsFromBackend,doUpdateQuizInstructionsFromBackend } from '../service/quizSetting-controller';
-
+import { doFetchAllAdminSettingsFromBackend, doUpdateQuizSettingsFromBackend, doUpdateQuizInstructionsFromBackend } from '../service/quizSetting-controller';
 
 const AdminSettings = () => {
   const [formUrl, setFormUrl] = useState('');
   const [timerDuration, setTimerDuration] = useState('');
   const [instructions, setInstructions] = useState('');
   const [newInstructions, setNewInstructions] = useState('');
+  const [isSettingsLoading, setIsSettingsLoading] = useState(false); // For "Save Settings"
+  const [isInstructionsLoading, setIsInstructionsLoading] = useState(false); // For "Update Instructions"
 
   // Fetch settings on load
-  async function doFetchAllSettings (){
-    var serverMsg = await doFetchAllAdminSettingsFromBackend();
-    console.log(serverMsg.data);
-    if(serverMsg.data.status){
-      setFormUrl(serverMsg.data.settings.formUrl);
-      setTimerDuration(serverMsg.data.settings.timerDuration);
-      setInstructions(serverMsg.data.instructions.instructions)
-    }
-    else{
-      alert(serverMsg.data.error)
+  async function doFetchAllSettings() {
+    try {
+      const serverMsg = await doFetchAllAdminSettingsFromBackend();
+      console.log(serverMsg.data);
+      if (serverMsg.data.status) {
+        setFormUrl(serverMsg.data.settings.formUrl);
+        setTimerDuration(serverMsg.data.settings.timerDuration);
+        setInstructions(serverMsg.data.instructions.instructions);
+      } else {
+        alert(serverMsg.data.error);
+      }
+    } catch (error) {
+      console.error('Failed to fetch settings:', error);
+      alert('Error fetching settings.');
     }
   }
 
-  
-  
   // Update settings
   const handleUpdateSettings = async () => {
-    var serverMsg = await doUpdateQuizSettingsFromBackend({formUrl:formUrl,timerDuration:timerDuration});
-    if(serverMsg.data.status){
-      alert("settings Saved")
+    setIsSettingsLoading(true);
+    try {
+      const serverMsg = await doUpdateQuizSettingsFromBackend({ formUrl, timerDuration });
+      if (serverMsg.data.status) {
+        alert('Settings saved successfully.');
+      } else {
+        alert(serverMsg.data.error);
+      }
+    } catch (error) {
+      console.error('Error updating settings:', error);
+      alert('Error saving settings.');
     }
-    else
-      alert(serverMsg.data.error);
+    setIsSettingsLoading(false);
   };
-  
+
   // Update instructions
   const handleUpdateInstructions = async () => {
-    var serverMsg = await doUpdateQuizInstructionsFromBackend({instructions:newInstructions});
-    if(serverMsg.data.status){
-      alert("settings Saved")
+    setIsInstructionsLoading(true);
+    try {
+      const serverMsg = await doUpdateQuizInstructionsFromBackend({ instructions: newInstructions });
+      if (serverMsg.data.status) {
+        alert('Instructions updated successfully.');
+        setInstructions(newInstructions); // Update the current instructions display
+        setNewInstructions(''); // Clear the input field
+      } else {
+        alert(serverMsg.data.error);
+      }
+    } catch (error) {
+      console.error('Error updating instructions:', error);
+      alert('Error updating instructions.');
     }
-    else
-      alert(serverMsg.data.error);
+    setIsInstructionsLoading(false);
   };
-  
-  useEffect(()=>{
+
+  useEffect(() => {
     doFetchAllSettings();
-  },[])
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#fdf7ed] flex items-center justify-center p-6">
@@ -75,9 +93,16 @@ const AdminSettings = () => {
 
           <button
             onClick={handleUpdateSettings}
-            className="w-full bg-[#ffd700] hover:bg-yellow-600 text-[#663300] font-semibold py-3 rounded transition duration-200"
+            className={`w-full bg-[#ffd700] hover:bg-yellow-600 text-[#663300] font-semibold py-3 rounded transition duration-200 flex items-center justify-center ${
+              isSettingsLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            disabled={isSettingsLoading}
           >
-            Save Settings
+            {isSettingsLoading ? (
+              <span className="loader h-5 w-5 border-2 border-t-transparent border-white rounded-full animate-spin mr-2"></span>
+            ) : (
+              'Save Settings'
+            )}
           </button>
         </section>
 
@@ -88,14 +113,22 @@ const AdminSettings = () => {
             rows="5"
             value={newInstructions}
             onChange={(e) => setNewInstructions(e.target.value)}
-            className="w-full border border-gray-300 p-4 rounded mb-4 focus:outline-none focus:border-[#ffd700] bg-[#ebe5de54] text-[#663300]"
+            className="w-full border border-gray-300 p-4 rounded mb-4 focus:outline-none focus:border-[#ffd700] bg-[#ebe5de54] text-[#663300] h-32 resize-none"
             placeholder="Enter new instructions..."
           />
+
           <button
             onClick={handleUpdateInstructions}
-            className="w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded transition duration-200"
+            className={`w-full bg-green-500 hover:bg-green-600 text-white font-semibold py-3 rounded transition duration-200 flex items-center justify-center ${
+              isInstructionsLoading ? 'opacity-50 cursor-not-allowed' : ''
+            }`}
+            disabled={isInstructionsLoading}
           >
-            Update Instructions
+            {isInstructionsLoading ? (
+              <span className="loader h-5 w-5 border-2 border-t-transparent border-white rounded-full animate-spin mr-2"></span>
+            ) : (
+              'Update Instructions'
+            )}
           </button>
 
           <div className="mt-8 bg-gray-100 p-4 rounded">
@@ -109,3 +142,4 @@ const AdminSettings = () => {
 };
 
 export default AdminSettings;
+
