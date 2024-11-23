@@ -65,14 +65,14 @@ const QuizPage = () => {
       {/* Quiz Content */}
       <div className="w-full max-w-4xl mt-6 px-4 sm:px-6 md:px-8 lg:px-12">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#663300] text-center mb-4">
-          Avyakt Murli Quiz 📃
+        Avyakt Murli Readers Club Quiz 📃
         </h1>
-        <p className="text-center text-gray-600 mb-6 text-sm sm:text-base">
-          This is a timed quiz. Once the timer runs out, your answers will be submitted automatically.
+        <p className="text-center text-gray-600 mb-6 font-bold text-sm sm:text-base">
+          मीठे बच्चे,जहाँ भी मुश्किल आवे, बस दिल से कहना मेरे बाबा, मेरे साथी आ जाओ, मदद करो, तो बाबा भी बंधा हुआ है।✨
         </p>
 
         {/* Google Form Embed */}
-        <div className="w-full bg-white rounded-lg shadow-lg overflow-hidden p-4 sm:p-6 md:p-8">
+        <div className="w-full h-5/6 bg-white rounded-lg shadow-lg overflow-hidden p-4 sm:p-6 md:p-8">
           <iframe
             src={formUrl}
             title="Quiz Form"
@@ -86,9 +86,9 @@ const QuizPage = () => {
       </div>
 
       {/* Footer */}
-      <div className="mt-8 text-gray-500 text-sm text-center">
+      {/* <div className="mt-8 text-gray-500 text-sm text-center">
         <p className="italic">Ensure you submit the quiz before time runs out. Good luck! 🍀</p>
-      </div>
+      </div> */}
     </div>
   );
 };
