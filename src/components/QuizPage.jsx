@@ -74,8 +74,8 @@ const QuizPage = () => {
         {/* Google Form Embed */}
         <div className="w-full h-5/6 bg-white rounded-lg shadow-lg overflow-hidden p-4 sm:p-6 md:p-8">
           <iframe
-            // src={formUrl}
-            src="https://docs.google.com/forms/d/e/1FAIpQLSdugMJfZsmqq4DSe6BO4qKfMBTHujLG5zdfH9Y_BfUKbZugIg/viewform?embedded=true"
+            src={formUrl}
+            // src="https://docs.google.com/forms/d/e/1FAIpQLSdugMJfZsmqq4DSe6BO4qKfMBTHujLG5zdfH9Y_BfUKbZugIg/viewform?embedded=true"
             title="Quiz Form"
             width="100%"
             height="500px"
