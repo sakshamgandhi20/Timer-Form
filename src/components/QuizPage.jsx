@@ -1,12 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { doFetchQuizSettingsFromBackend } from '../service/quizSetting-controller';
-import axios from 'axios';
+import React, { useEffect, useState } from "react";
+import { doFetchQuizSettingsFromBackend } from "../service/quizSetting-controller";
+import axios from "axios";
 
 const QuizPage = () => {
   const [timeLeft, setTimeLeft] = useState();
-  const [formUrl, setFormUrl] = useState('');
-
- 
+  const [formUrl, setFormUrl] = useState("");
 
   async function doFetchQuizLink() {
     const serverMsg = await doFetchQuizSettingsFromBackend();
@@ -45,17 +43,18 @@ const QuizPage = () => {
   //     console.error('Failed to auto-submit form:', error);
   //   }
   // };
-  
 
   // Format time in MM:SS
   const formatTime = (seconds) => {
     const minutes = Math.floor(seconds / 60);
     const remainingSeconds = seconds % 60;
-    return `${String(minutes).padStart(2, '0')}:${String(remainingSeconds).padStart(2, '0')}`;
+    return `${String(minutes).padStart(2, "0")}:${String(
+      remainingSeconds
+    ).padStart(2, "0")}`;
   };
 
   return (
-    <div className="min-h-screen bg-[#fdf7ed] flex flex-col items-center p-4">
+    <div className="min-h-screen bg-[#fdf7ed] flex flex-col items-center ">
       {/* Sticky Timer */}
       {/* <div className="w-full bg-[#ffd700] text-[#663300] font-semibold py-2 px-4 shadow-md sticky top-0 z-50 flex justify-center items-center">
         <span>⏳</span>
@@ -65,20 +64,21 @@ const QuizPage = () => {
       {/* Quiz Content */}
       <div className="w-full max-w-4xl mt-6 px-4 sm:px-6 md:px-8 lg:px-12">
         <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#663300] text-center mb-4">
-        Avyakt Murli Readers Club Quiz 📃
+          Avyakt Murli Readers Club Quiz 📃
         </h1>
         <p className="text-center text-gray-600 mb-6 font-bold text-sm sm:text-base">
-          मीठे बच्चे,जहाँ भी मुश्किल आवे, बस दिल से कहना मेरे बाबा, मेरे साथी आ जाओ, मदद करो, तो बाबा भी बंधा हुआ है।✨
+          मीठे बच्चे,जहाँ भी मुश्किल आवे, बस दिल से कहना मेरे बाबा, मेरे साथी आ
+          जाओ, मदद करो, तो बाबा भी बंधा हुआ है।✨
         </p>
 
         {/* Google Form Embed */}
-        <div className="w-full h-5/6 bg-white rounded-lg shadow-lg overflow-hidden p-4 sm:p-6 md:p-8">
+        <div className="w-full h-5/6  rounded-lg shadow-md overflow-hidden p-4 sm:p-6 md:p-8 bg-[#fdf7ed]">
           <iframe
             src={formUrl}
-            // src="https://docs.google.com/forms/d/e/1FAIpQLSdugMJfZsmqq4DSe6BO4qKfMBTHujLG5zdfH9Y_BfUKbZugIg/viewform?embedded=true"
+            // src="https://timer.pipiform.com/Hxz6Jh"
             title="Quiz Form"
             width="100%"
-            height="500px"
+            style={{height: '80vh'}}
             className="border-0 rounded-lg"
             frameBorder="0"
             allow="autoplay; encrypted-media"
@@ -87,14 +87,13 @@ const QuizPage = () => {
       </div>
 
       {/* Footer */}
-      {/* <div className="mt-8 text-gray-500 text-sm text-center">
-        <p className="italic">Ensure you submit the quiz before time runs out. Good luck! 🍀</p>
-      </div> */}
+      <div className="mt-8 text-gray-500 text-sm text-center">
+        <p className="italic">
+          Ensure you submit the quiz before time runs out. Good luck! 🍀
+        </p>
+      </div>
     </div>
   );
 };
 
 export default QuizPage;
-
-
-
