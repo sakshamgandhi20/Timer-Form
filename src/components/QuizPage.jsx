@@ -79,7 +79,8 @@ const QuizPage = () => {
         </div> */}
 
         {/* Quiz Content */}
-        <div className="w-full max-w-4xl mt-6 px-4 sm:px-6 md:px-8 lg:px-12">
+        <div className="w-full max-w-4xl mt-6 "> 
+          {/* px-4 sm:px-6 md:px-8 lg:px-12 */}
           <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-[#663300] text-center mb-4">
             Avyakt Murli Readers Club Quiz 📃
           </h1>
@@ -90,6 +91,7 @@ const QuizPage = () => {
 
           {/* Google Form Embed */}
           <div className="w-full h-5/6  rounded-lg shadow-md overflow-hidden p-4 sm:p-6 md:p-8 bg-[#fdf7ed]">
+          {/* p-4 sm:p-6 md:p-8 */}
             <iframe
               src={formUrl}
               title="Quiz Form"
