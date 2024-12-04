@@ -90,7 +90,7 @@ const QuizPage = () => {
           </p>
 
           {/* Google Form Embed */}
-          <div className="w-full h-5/6  rounded-lg shadow-md overflow-hidden p-4 sm:p-6 md:p-8 bg-[#fdf7ed]">
+          <div className="w-full h-5/6  rounded-lg shadow-md overflow-hidden bg-[#fdf7ed]">
           {/* p-4 sm:p-6 md:p-8 */}
             <iframe
               src={formUrl}
